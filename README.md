@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/entediado97/Astrid_G-Maps"><img src="https://i.ibb.co/WKZrPPS/astrid.png" alt="astrid" border="0">
+  <a href="https://github.com/entediado97/Astrid_G-Maps"><img src="https://i.ibb.co/t8xyvSg/astrid.png" alt="astrid" border="0">
   <br>
   Astrid G-Maps
   <br>
