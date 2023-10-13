@@ -23,3 +23,6 @@ O script verifica a vulnerabilidade das chaves API em várias APIs do Google Map
 ### Instalação de Dependências
 
 Antes de começar, certifique-se de que tem todas as bibliotecas necessárias instaladas. Se não, apenas corra o seguinte comando no seu terminal:
+
+```bash
+pip install requests colorama
