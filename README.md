@@ -26,3 +26,14 @@ Antes de começar, certifique-se de que tem todas as bibliotecas necessárias in
 
 ```bash
 pip install requests colorama
+
+##Chave API
+
+Você vai precisar de uma chave API do Google Maps para testar. Se você não tem uma ainda, pode obter uma aqui.
+
+##Execução
+
+Execute o script Python no seu terminal com:
+
+```bash
+python astrid.py
