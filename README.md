@@ -27,15 +27,26 @@ Antes de começar, certifique-se de que tem todas as bibliotecas necessárias in
 ```bash
 pip install requests colorama
 ```
-##Chave API
+## Chave API
 
 Você vai precisar de uma chave API do Google Maps para testar. Se você não tem uma ainda, pode obter uma [aqui.](https://mapsplatform.google.com/)
 
-##Execução
+## Execução
 
 Execute o script Python no seu terminal com:
 
 ```bash
 python astrid.py
 ```
+E siga as instruções na tela para inserir a sua chave API e começar a verificação!
 
+## 📋 Exportando Resultados
+No final da execução, o script irá perguntar se você deseja exportar os resultados para um arquivo .txt. Isso pode ser útil para manter um registro das APIs vulneráveis e usar como prova de conceito ou evidência.
+
+## 🔄 Extensibilidade
+Sinta-se à vontade para adicionar mais URLs para verificar! Basta adicionar uma nova tupla na lista urls_to_check com o formato:
+```bash
+("URL", "MÉTODO", "DESCRIÇÃO", "CUSTO", DADOS_POST)
+```
+## 🤝 Contribuindo
+Adoraríamos ver as suas contribuições! Sinta-se à vontade para adicionar novas funcionalidades, corrigir bugs ou melhorar a documentação. Basta fazer um fork e enviar um Pull Request!
