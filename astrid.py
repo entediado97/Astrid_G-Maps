@@ -1,11 +1,21 @@
+
+'''
+================================================
+By Beni Honori
+https://github.com/entediado97/Astrid_G-Maps
+================================================
+'''
+
+# Importando as bibliotecas necessárias
 import requests
-import warnings
 from colorama import Fore, Style
 
-# Função para verificar a vulnerabilidade das APIs do Google Maps
+# Função para verificar a vulnerabilidade da chave da API do Google Maps
 def verificar_vulnerabilidade_gmaps(apikey):
+    # Lista para armazenar APIs vulneráveis
     vulnerable_apis = []
-    
+
+    # Lista de URLs para verificar
     urls_to_check = [
         ("https://www.googleapis.com/customsearch/v1?cx=017576662512468239146:omuauf_lfve&q=lectures&key=", "GET", "Custom Search", "$5 por 1000 requests", None),
         ("https://www.googleapis.com/customsearch/v1?cx=017576662512468239146:omuauf_lfve&q=lectures&key=", "GET", "Custom Search", "$5 por 1000 requests", None),
@@ -32,50 +42,57 @@ def verificar_vulnerabilidade_gmaps(apikey):
         ("https://maps.googleapis.com/maps/api/staticmap?center=45%2C10&zoom=7&size=400x400&key=", "GET", "Staticmap", "$2 por 1000 requisições", None),        # Outros URLs aqui ...
     ]
 
+    # Imprime cabeçalhos
+    print('\n')
+    #print("-" * 75)
     print(f"{Fore.BLUE}{'API':<30}{'Custo':<25}{'URL'}{Style.RESET_ALL}")
     print("-" * 75)
 
+    # Loop para verificar cada URL
     for url, metodo, descricao, custo, dados_post in urls_to_check:
         url_completa = f"{url}{apikey}"
-        if metodo == "GET":
-            response = requests.get(url_completa, verify=False)
-        elif metodo == "POST":
-            response = requests.post(url, json=dados_post, verify=False)
-        else:
-            print(f"Tipo de método desconhecido: {metodo}")
-            continue
-
+        
         try:
-            response_json = response.json()
-            if response.status_code == 200:
+            # Se o método for GET, faça uma requisição GET
+            if metodo == "GET":
+                response = requests.get(url_completa)
+            # Se o método for POST, faça uma requisição POST
+            elif metodo == "POST":
+                response = requests.post(url, json=dados_post)
+            else:
+                print(f"Tipo de método desconhecido: {metodo}")
+                continue
+
+            # Verifica se a resposta é 200 e se não contém erro
+            if response.status_code == 200 and "error" not in response.text:
                 print(f"{descricao:<30}{custo:<25}{Fore.GREEN}{url_completa}{Style.RESET_ALL}")
                 vulnerable_apis.append((descricao, custo, url_completa))
             else:
-                error_message = response_json.get("error", {}).get("errors", [{}])[0].get("message", "Erro desconhecido")
+                error_message = response.json().get("error", {}).get("message", "Erro desconhecido")
                 print(f"{descricao:<30}{custo:<25}{Fore.RED}Não Vulnerável{Style.RESET_ALL}")
                 print(f"Motivo: {Fore.YELLOW}{error_message}{Style.RESET_ALL}")
-        except ValueError:
-            print(f"{descricao:<30}{custo:<25}{Fore.RED}Erro JSON{Style.RESET_ALL}")
+        except Exception as e:
+            print(f"{descricao:<30}{custo:<25}{Fore.RED}Erro: {e}{Style.RESET_ALL}")
 
+    # Função para exportar os resultados
     exportar_relatorio(vulnerable_apis)
 
+    # Imprime referências
     print("\nReferência para preços atualizados:")
     print("https://cloud.google.com/maps-platform/pricing")
     print("https://developers.google.com/maps/billing/gmp-billing")
 
+# Função para exportar os resultados para um arquivo
 def exportar_relatorio(vulnerable_apis):
     exportar = input(Fore.BLUE + "Deseja exportar um relatório para arquivo.txt? (Y/N): " + Style.RESET_ALL)
     if exportar.lower() == 'y':
-        with open('arquivo.txt', 'w') as arquivo:
+        with open('POC.txt', 'w') as arquivo:
             arquivo.write("API || Custo || URL\n")
             for api in vulnerable_apis:
                 arquivo.write(f"{api[0]} || {api[1]} || {api[2]}\n")
         print(Fore.BLUE + "Relatório exportado para arquivo.txt." + Style.RESET_ALL)
     else:
         print(Fore.BLUE + "Relatório não exportado." + Style.RESET_ALL)
-
-# Suprimir avisos
-warnings.filterwarnings("ignore")
 
 # Função principal
 def main():
